@@ -8,9 +8,7 @@ const secret = process.env.JWT_SECRET;
 module.exports = async (req, res, next) => {
   const token = req.header('Authorization');
 
-  if (!token) {
-    return res.status(401).json({ error: 'Token not found' });
-  }
+  if (!token) return res.status(401).json({ message: 'Token not found' });
 
   try {
     const decoded = jwt.verify(token, secret);
