@@ -43,9 +43,9 @@ const getAllUsers = async (req, res) => {
   try {
     const { type, message } = await ServiceUser.getAllUsers();
     if (type) return res.status(type).json({ message });
-    const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
+    jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
 
-    return res.status(200).json({ token });
+    return res.status(200).json(message);
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: error.message });

@@ -3,13 +3,13 @@ const jwt = require('jsonwebtoken');
 require('dotenv/config');
 const ServiceUser = require('../services/service.user');
 
-const secret = process.env.JWT_SECRET || 'suaSenhaSecreta';
+const secret = process.env.JWT_SECRET;
 
 module.exports = async (req, res, next) => {
   const token = req.header('Authorization');
 
   if (!token) {
-    return res.status(401).json({ error: 'Token não encontrado' });
+    return res.status(401).json({ error: 'Token not found' });
   }
 
   try {
@@ -23,6 +23,6 @@ module.exports = async (req, res, next) => {
 
     next();
   } catch (err) {
-    return res.status(401).json({ message: err.message });
+    return res.status(401).json({ message: 'Expired or invalid token' });
   }
 };
