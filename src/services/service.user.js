@@ -25,8 +25,14 @@ const createNewUser = async (data) => {
   return { type: null, message: result };
 }; 
 
+const getAllUsers = async () => {
+    const users = await User.findAll();
+    return { type: null, message: users };
+};
+
 module.exports = {
     getByEmail,
     getById,
     createNewUser,
+    getAllUsers,
 };
