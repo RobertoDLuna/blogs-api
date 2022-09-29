@@ -12,8 +12,10 @@ const getByEmail = async (email) => {
 const getById = async (id) => {
     const result = await User.findOne({
         where: { id },
+        attributes: { exclude: ['password'] },
     });
-    return result;
+    if (!result) return { type: 404, message: 'User does not exist' };
+    return { type: null, message: result };
 };
 
 const createNewUser = async (data) => {
