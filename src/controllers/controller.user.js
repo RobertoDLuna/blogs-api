@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 const ServiceUser = require('../services/service.user');
 
 const secret = process.env.JWT_SECRET || 'suaSenhaSecreta';
+const jwtConfig = {
+  expiresIn: '7d',
+  algorithm: 'HS256',
+};
 
 const login = async (req, res) => {
   try {
@@ -11,11 +15,6 @@ const login = async (req, res) => {
     const { type, message } = await ServiceUser.getByEmail(email);
     console.log('ronaldo', type, message);
     if (type) return res.status(type).json({ message });
-
-    const jwtConfig = {
-      expiresIn: '7d',
-      algorithm: 'HS256',
-    };
 
     const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
 
@@ -26,9 +25,10 @@ const login = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
+const createNewUser = async (req, res) => {
   try {
-    const { type, message } = await ServiceUser.createUser(req.body);
+    const { type, message } = await ServiceUser.createNewUser(req.body);
+    console.log('roberto', type, message);
     if (type) return res.status(type).json({ message });
     const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
 
@@ -41,5 +41,5 @@ const createUser = async (req, res) => {
 
 module.exports = {
   login,
-  createUser,
+  createNewUser,
 };
