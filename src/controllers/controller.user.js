@@ -39,7 +39,21 @@ const createNewUser = async (req, res) => {
   }
 };
 
+const getAllUsers = async (req, res) => {
+  try {
+    const { type, message } = await ServiceUser.getAllUsers();
+    if (type) return res.status(type).json({ message });
+    const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
+
+    return res.status(200).json({ token });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   login,
   createNewUser,
+  getAllUsers,
 };
