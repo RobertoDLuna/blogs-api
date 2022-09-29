@@ -20,7 +20,8 @@ const validateNewUser = (req, res, next) => {
   }
   const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
   const validateEmail = regex.test(email);
-  if (!validateEmail) return res.status().json({ message: '"email" must be a valid email' }); 
+  if (!validateEmail) return res.status().json({ message: '"email" must be a valid email' });
+  next();
 };
 
 module.exports = {
