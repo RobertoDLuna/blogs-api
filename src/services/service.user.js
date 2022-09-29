@@ -16,7 +16,17 @@ const getById = async (id) => {
     return result;
 };
 
+const creteNewUser = async (data) => {
+  const response = await User.findOne({
+    where: { email: data.email },
+  });
+  if (response) return { type: 409, message: 'User already registered' };
+  const result = await User.create(data);
+  return { type: null, message: result };
+}; 
+
 module.exports = {
     getByEmail,
     getById,
+    creteNewUser,
 };
