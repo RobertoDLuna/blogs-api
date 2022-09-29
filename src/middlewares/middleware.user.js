@@ -18,6 +18,7 @@ const validateNewUser = (req, res, next) => {
     return res.status(400)
     .json({ message: '"password" length must be at least 6 characters long' });
   }
+  // referencia regex https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
   const regex = new RegExp('[a-z0-9]+@[a-z]+.[a-z]{2,3}');
   const validateEmail = regex.test(email);
   if (!validateEmail) return res.status().json({ message: '"email" must be a valid email' });

@@ -16,7 +16,7 @@ const getById = async (id) => {
     return result;
 };
 
-const creteNewUser = async (data) => {
+const createNewUser = async (data) => {
   const response = await User.findOne({
     where: { email: data.email },
   });
@@ -28,5 +28,5 @@ const creteNewUser = async (data) => {
 module.exports = {
     getByEmail,
     getById,
-    creteNewUser,
+    createNewUser,
 };
