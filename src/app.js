@@ -1,6 +1,7 @@
 const express = require('express');
 const validateJWT = require('./auth/validateJWT');
 const ControllerUser = require('./controllers/controller.user');
+const ControllerCategory = require('./controllers/controller.category');
 const { validateLogin, validateNewUser } = require('./middlewares/middleware.user');
 
 // ...
@@ -13,7 +14,7 @@ app.use(express.json());
 // app.get('/login', async (req, res) => { res.status(200).json({ message: 'deu certo' }); });
 app.post('/login', validateLogin, ControllerUser.login);
 app.post('/user', validateNewUser, ControllerUser.createNewUser);
-app.post('/categories', validateJWT, ControllerCategory.createCategory);
+app.post('/categories', validateJWT, ControllerCategory.createNewCategory);
 app.get('/user', validateJWT, ControllerUser.getAllUsers);
 app.get('/user/:id', validateJWT, ControllerUser.getById);
 // É importante exportar a constante `app`,
