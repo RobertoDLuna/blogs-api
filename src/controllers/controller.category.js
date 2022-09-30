@@ -24,6 +24,18 @@ const createNewCategory = async (req, res) => {
     }
 };
 
+const getAllCategories = async (req, res) => {
+    try {
+        const result = await ServiceCategory.getAllCategories();
+        jwt.sign({ data: { userId: result.id } }, secret, jwtConfig);
+        res.status(200).json(result);
+    } catch (err) {
+        console.log(err.message);
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     createNewCategory,
+    getAllCategories,
 };
