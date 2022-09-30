@@ -17,7 +17,7 @@ const createNewCategory = async (req, res) => {
         const { message } = await ServiceCategory(req.body);
 
         jwt.sign({ data: { userID: message.id } }, secret, jwtConfig);
-        res.status(201).json({ message });
+        res.status(201).json(message);
     } catch (err) {
         console.log(err.message);
         res.status(500).json({ message: err.message });
