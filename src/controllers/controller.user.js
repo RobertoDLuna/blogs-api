@@ -28,7 +28,7 @@ const login = async (req, res) => {
 const createNewUser = async (req, res) => {
   try {
     const { type, message } = await ServiceUser.createNewUser(req.body);
-    console.log('roberto', type, message);
+
     if (type) return res.status(type).json({ message });
     const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
 
