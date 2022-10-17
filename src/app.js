@@ -3,7 +3,8 @@ const validateJWT = require('./auth/validateJWT');
 const UserController = require('./controllers/user.controller');
 const CategoryController = require('./controllers/category.controller');
 const BlogPostController = require('./controllers/post.controller');
-const { validatePost, validateUpdatePost, checkPostAndAuth } = require('./middlewares/post.middleware');
+const { validatePost, 
+    validateUpdatePost, checkPostAndAuth } = require('./middlewares/post.middleware');
 const { validateLogin, validateNewUser } = require('./middlewares/user.middleware');
 
 // ...
