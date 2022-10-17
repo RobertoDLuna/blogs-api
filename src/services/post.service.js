@@ -44,9 +44,16 @@ const updatePostById = async (data, id) => {
   return post;
 };
 
+const deletePost = async (id) => {
+  await BlogPost.destroy({
+    where: { id },
+  });
+};
+
 module.exports = {
   createPost,
   getAllPosts,
   getById,
   updatePostById,
+  deletePost,
 };

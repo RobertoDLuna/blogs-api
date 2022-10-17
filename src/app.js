@@ -3,7 +3,7 @@ const validateJWT = require('./auth/validateJWT');
 const UserController = require('./controllers/user.controller');
 const CategoryController = require('./controllers/category.controller');
 const BlogPostController = require('./controllers/post.controller');
-const { validatePost, validateUpdatePost } = require('./middlewares/post.middleware');
+const { validatePost, validateUpdatePost, checkPostAndAuth } = require('./middlewares/post.middleware');
 const { validateLogin, validateNewUser } = require('./middlewares/user.middleware');
 
 // ...
@@ -22,6 +22,7 @@ app.get('/user', validateJWT, UserController.getAllUsers);
 app.get('/post', validateJWT, BlogPostController.getAllPosts);
 app.get('/post/:id', validateJWT, BlogPostController.getById);
 app.put('/post/:id', validateJWT, validateUpdatePost, BlogPostController.updatePostById);
+app.delete('/post/:id', validateJWT, checkPostAndAuth, BlogPostController.deletePost);
 app.get('/user/:id', validateJWT, UserController.getById);
 app.get('/categories', validateJWT, CategoryController.getAllCategories);
 // É importante exportar a constante `app`,
