@@ -24,6 +24,7 @@ app.get('/post', validateJWT, BlogPostController.getAllPosts);
 app.get('/post/:id', validateJWT, BlogPostController.getById);
 app.put('/post/:id', validateJWT, validateUpdatePost, BlogPostController.updatePostById);
 app.delete('/post/:id', validateJWT, checkPostAndAuth, BlogPostController.deletePost);
+app.delete('/user/me', validateJWT, UserController.deleteMe);
 app.get('/user/:id', validateJWT, UserController.getById);
 app.get('/categories', validateJWT, CategoryController.getAllCategories);
 // É importante exportar a constante `app`,
