@@ -1,7 +1,7 @@
 require('dotenv/config');
 
 const jwt = require('jsonwebtoken');
-const ServiceUser = require('../services/service.user');
+const UserService = require('../services/user.service');
 
 const secret = process.env.JWT_SECRET || 'suaSenhaSecreta';
 const jwtConfig = {
@@ -12,8 +12,7 @@ const jwtConfig = {
 const login = async (req, res) => {
   try {
     const { email } = req.body;
-    const { type, message } = await ServiceUser.getByEmail(email);
-    console.log('ronaldo', type, message);
+    const { type, message } = await UserService.getByEmail(email);
     if (type) return res.status(type).json({ message });
 
     const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
@@ -25,14 +24,13 @@ const login = async (req, res) => {
   }
 };
 
-const createNewUser = async (req, res) => {
+const createUser = async (req, res) => {
   try {
-    const { type, message } = await ServiceUser.createNewUser(req.body);
-
+    const { type, message } = await UserService.createUser(req.body);
     if (type) return res.status(type).json({ message });
     const token = jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
 
-    return res.status(201).json({ token });
+    return res.status(201).json({ token });    
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: error.message });
@@ -41,11 +39,11 @@ const createNewUser = async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const { type, message } = await ServiceUser.getAllUsers();
+    const { type, message } = await UserService.getAllUsers();
     if (type) return res.status(type).json({ message });
     jwt.sign({ data: { userId: message.id } }, secret, jwtConfig);
 
-    return res.status(200).json(message);
+    res.status(200).json(message);
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ message: error.message });
@@ -55,21 +53,20 @@ const getAllUsers = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { type, message } = await ServiceUser.getById(id);
+    const { type, message } = await UserService.getById(id);
     if (type) return res.status(type).json({ message });
-    
-    jwt.sign({ data: { userId: message.dataValues.id } }, secret, jwtConfig);
 
-    return res.status(200).json(message.dataValues);
-  } catch (err) {
-    console.log(err.message);
-    res.status(500).json({ message: err.message });
+    jwt.sign({ data: { userId: message.dataValues.id } }, secret, jwtConfig);
+    res.status(200).json(message.dataValues);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
   }
 };
 
 module.exports = {
   login,
-  createNewUser,
+  createUser,
   getAllUsers,
   getById,
 };

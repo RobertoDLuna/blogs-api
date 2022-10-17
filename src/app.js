@@ -1,10 +1,10 @@
 const express = require('express');
 const validateJWT = require('./auth/validateJWT');
-const ControllerUser = require('./controllers/controller.user');
-const { validadePost } = require('./middlewares/middleware.post');
-const ControllerCategory = require('./controllers/controller.category');
-const BlogPostController = require('./controllers/controller.post');
-const { validateLogin, validateNewUser } = require('./middlewares/middleware.user');
+const UserController = require('./controllers/user.controller');
+const CategoryController = require('./controllers/category.controller');
+const BlogPostController = require('./controllers/post.controller');
+const { validatePost, validateUpdatePost } = require('./middlewares/post.middleware');
+const { validateLogin, validateNewUser } = require('./middlewares/user.middleware');
 
 // ...
 
@@ -14,13 +14,16 @@ app.use(express.json());
 
 // ...
 // app.get('/login', async (req, res) => { res.status(200).json({ message: 'deu certo' }); });
-app.post('/login', validateLogin, ControllerUser.login);
-app.post('/user', validateNewUser, ControllerUser.createNewUser);
-app.post('/categories', validateJWT, ControllerCategory.createNewCategory);
-app.post('/post', validateJWT, validadePost, BlofPostController.createPost);
-app.get('/user', validateJWT, ControllerUser.getAllUsers);
-app.get('/user/:id', validateJWT, ControllerUser.getById);
-app.get('/categories', validateJWT, ControllerCategory.getAllCategories);
+app.post('/login', validateLogin, UserController.login);
+app.post('/user', validateNewUser, UserController.createUser);
+app.post('/categories', validateJWT, CategoryController.createCategory);
+app.post('/post', validateJWT, validatePost, BlogPostController.createPost);
+app.get('/user', validateJWT, UserController.getAllUsers);
+app.get('/post', validateJWT, BlogPostController.getAllPosts);
+app.get('/post/:id', validateJWT, BlogPostController.getById);
+app.put('/post/:id', validateJWT, validateUpdatePost, BlogPostController.updatePostById);
+app.get('/user/:id', validateJWT, UserController.getById);
+app.get('/categories', validateJWT, CategoryController.getAllCategories);
 // É importante exportar a constante `app`,
 // para que possa ser utilizada pelo arquivo `src/server.js`
 module.exports = app;

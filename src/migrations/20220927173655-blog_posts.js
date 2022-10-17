@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const TableBlogPosts = await queryInterface.createTable('blog_posts', {
+    const BlogPostsTable = await queryInterface.createTable('blog_posts', { 
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -19,20 +19,26 @@ module.exports = {
       },
       user_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'users',
-        //   key: 'id',
-        // },
-        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'id',
+        },
         onDelete: 'CASCADE',
+        primaryKey: true,
       },
-      published: 'TIMESTAMP',
-      updated: 'TIMESTAMP'
-    });
-    return TableBlogPosts;
+      published: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      },
+      updated: {
+        type: Sequelize.DATE,
+        allowNull: false,
+      }
+  });
+  return BlogPostsTable; 
   },
 
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('BlogPosts');
-  },
+  }
 };
